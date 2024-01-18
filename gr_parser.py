@@ -75,7 +75,9 @@ class GRParser:
                         dict(zip(current_columns, line_to_parse.parse()))
                     )
                 else:
-                    parsed_raw_data[current_day] = []
+                    parsed_raw_data[current_day] = [
+                        dict(zip(current_columns, line_to_parse.parse()))
+                    ]
             elif not line_to_parse.is_correct():
                 current_parser = DayHeaderParser  # reset parsing, new day
         return dict(
