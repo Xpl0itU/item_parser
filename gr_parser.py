@@ -57,13 +57,13 @@ class GRParser:
         self.data = data
 
     def parse_string(self):
-        parsed_raw_data = {}
+        parsed_data = {}
         current_parser = DayHeaderParser
         current_day = None
         current_columns = None
         for line in str(self.data).splitlines():
             line_to_parse = current_parser(line)
-            if current_parser == DayHeaderParser: # TODO: simplify this code and do the parsing in one pass
+            if current_parser == DayHeaderParser:  # TODO: simplify this code
                 current_day = line_to_parse.parse()
                 current_parser = ColumnNamesParser
             elif current_parser == ColumnNamesParser:
@@ -71,31 +71,26 @@ class GRParser:
                 current_parser = ItemInfoParser
             elif current_parser == ItemInfoParser and line_to_parse.is_correct():
                 data_to_add = dict(zip(current_columns, line_to_parse.parse()))
-                if current_day in parsed_raw_data:
-                    parsed_raw_data[current_day].append(data_to_add)
+                if current_day in parsed_data:
+                    parsed_data[current_day].append(
+                        Item(
+                            name=data_to_add["name"],
+                            sell_in=data_to_add["sellIn"],
+                            quality=data_to_add["quality"],
+                        )
+                    )
                 else:
-                    parsed_raw_data[current_day] = [data_to_add]
+                    parsed_data[current_day] = [
+                        Item(
+                            name=data_to_add["name"],
+                            sell_in=data_to_add["sellIn"],
+                            quality=data_to_add["quality"],
+                        )
+                    ]
             elif not line_to_parse.is_correct():
                 current_parser = DayHeaderParser  # reset parsing, new day
 
-        return dict(
-            map(
-                lambda x: (
-                    x[0],
-                    tuple(
-                        map(
-                            lambda y: Item(
-                                name=y["name"],
-                                sell_in=y["sellIn"],
-                                quality=y["quality"],
-                            ),
-                            x[1],
-                        )
-                    ),
-                ),
-                parsed_raw_data.items(),
-            )
-        )
+        return parsed_data
 
 
 if __name__ == "__main__":
