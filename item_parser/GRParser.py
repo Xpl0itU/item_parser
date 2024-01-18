@@ -1,5 +1,5 @@
 import re
-from items import Item
+from item_parser.Item import Item
 
 COLUMN_COUNT = 3
 
@@ -87,10 +87,3 @@ class GRParser:
                 current_parser = DayHeaderParser  # reset parsing, new day
 
         return parsed_data
-
-
-if __name__ == "__main__":
-    from pprint import pprint
-
-    with open("stdout_bug_conjured.gr", encoding="utf-8") as f:
-        pprint(GRParser(f.read()).parse_string())
