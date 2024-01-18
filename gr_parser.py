@@ -1,4 +1,7 @@
+import re
 from items import Item
+
+COLUMN_COUNT = 3
 
 
 class BaseGRParserItem:
@@ -16,11 +19,19 @@ class BaseGRParserItem:
 
 
 class DayHeaderParser(BaseGRParserItem):
+    def __init__(self, data):
+        super().__init__(data)
+        self.pattern = r"-------- day (-?\d+) --------"
+        self.match = None
+
     def parse(self):
-        return "dayHeader"
+        self.match = re.search(self.pattern, self.data)
+        if self.match:
+            return self.match.group(1)
+        return None
 
     def is_correct(self):
-        return self.data.startswith("-")
+        return bool(self.match)
 
 
 class ColumnNamesParser(BaseGRParserItem):
@@ -28,7 +39,9 @@ class ColumnNamesParser(BaseGRParserItem):
         return "columnNames"
 
     def is_correct(self):
-        return len(self.data.split(", ")) == 3 and self.data.startswith("name")
+        return len(self.data.split(", ")) == COLUMN_COUNT and self.data.startswith(
+            "name"
+        )
 
 
 class ItemInfoParser(BaseGRParserItem):
@@ -36,7 +49,7 @@ class ItemInfoParser(BaseGRParserItem):
         return "itemInfo"
 
     def is_correct(self):
-        return len(self.data.split(", ")) == 3
+        return len(self.data.split(", ")) >= COLUMN_COUNT  # TODO: improve this check
 
 
 class GRParser:
@@ -46,14 +59,15 @@ class GRParser:
     def parse_string(self):
         current_parser = DayHeaderParser
         for line in str(self.data).splitlines():
-            parsed_line = current_parser(line)
+            line_to_parse = current_parser(line)
             if current_parser == DayHeaderParser:
                 current_parser = ColumnNamesParser
             elif current_parser == ColumnNamesParser:
                 current_parser = ItemInfoParser
-            elif not parsed_line.is_correct():
+            elif not line_to_parse.is_correct():
                 current_parser = DayHeaderParser  # reset parsing, new day
-            print(parsed_line.parse())
+            # print(line_to_parse)
+            print(line_to_parse.parse())
 
 
 if __name__ == "__main__":
