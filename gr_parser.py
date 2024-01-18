@@ -56,6 +56,7 @@ class GRParser:
     def __init__(self, data):
         self.data = data
 
+    @staticmethod
     def __create_item_from_raw_data(data):
         return Item(
             name=data["name"],
