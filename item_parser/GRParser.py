@@ -69,7 +69,6 @@ class GRParser:
         current_parser = DayHeaderParser
         current_day = None
         current_columns = None
-        current_items = []
         for line in str(self.data).splitlines():
             line_to_parse = current_parser(line)
             if current_parser == DayHeaderParser:  # TODO: simplify this code
@@ -85,7 +84,6 @@ class GRParser:
                         self.__create_item_from_raw_data(raw_data)
                     )
             elif not line_to_parse.is_correct():
-                current_items.clear()
                 current_parser = DayHeaderParser  # reset parsing, new day starts
 
         return parsed_data
