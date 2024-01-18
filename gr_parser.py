@@ -57,19 +57,32 @@ class GRParser:
         self.data = data
 
     def parse_string(self):
+        parsed_raw_data = {}
         current_parser = DayHeaderParser
+        current_day = None
+        current_columns = None
         for line in str(self.data).splitlines():
             line_to_parse = current_parser(line)
             if current_parser == DayHeaderParser:
+                current_day = line_to_parse.parse()
                 current_parser = ColumnNamesParser
             elif current_parser == ColumnNamesParser:
+                current_columns = line_to_parse.parse()
                 current_parser = ItemInfoParser
+            elif current_parser == ItemInfoParser and line_to_parse.is_correct():
+                if current_day in parsed_raw_data:
+                    parsed_raw_data[current_day].append(
+                        dict(zip(current_columns, line_to_parse.parse()))
+                    )
+                else:
+                    parsed_raw_data[current_day] = []
             elif not line_to_parse.is_correct():
                 current_parser = DayHeaderParser  # reset parsing, new day
-            # print(line_to_parse)
-            print(line_to_parse.parse())
+        return parsed_raw_data
 
 
 if __name__ == "__main__":
+    from pprint import pprint
+
     with open("stdout_bug_conjured.gr", encoding="utf-8") as f:
-        GRParser(f.read()).parse_string()
+        pprint(GRParser(f.read()).parse_string())
