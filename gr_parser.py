@@ -56,6 +56,13 @@ class GRParser:
     def __init__(self, data):
         self.data = data
 
+    def __create_item_from_raw_data(data):
+        return Item(
+            name=data["name"],
+            sell_in=data["sellIn"],
+            quality=data["quality"],
+        )
+
     def parse_string(self):
         parsed_data = {}
         current_parser = DayHeaderParser
@@ -71,14 +78,8 @@ class GRParser:
                 current_columns = line_to_parse.parse()
                 current_parser = ItemInfoParser
             elif current_parser == ItemInfoParser and line_to_parse.is_correct():
-                data_to_add = dict(zip(current_columns, line_to_parse.parse()))
-                current_items.append(
-                    Item(
-                        name=data_to_add["name"],
-                        sell_in=data_to_add["sellIn"],
-                        quality=data_to_add["quality"],
-                    )
-                )
+                raw_data = dict(zip(current_columns, line_to_parse.parse()))
+                current_items.append(self.__create_item_from_raw_data(raw_data))
             elif not line_to_parse.is_correct():
                 parsed_data[current_day] = current_items
                 current_items.clear()
