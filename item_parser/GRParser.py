@@ -80,10 +80,18 @@ class GRParser:
                 current_parser = ItemInfoParser
             elif current_parser == ItemInfoParser and line_to_parse.is_correct():
                 raw_data = dict(zip(current_columns, line_to_parse.parse()))
-                current_items.append(self.__create_item_from_raw_data(raw_data))
+                if raw_data:
+                    if current_day in parsed_data:
+                        parsed_data[current_day].append(
+                            self.__create_item_from_raw_data(raw_data)
+                        )
+                    else:
+                        parsed_data[current_day] = [
+                            self.__create_item_from_raw_data(raw_data)
+                        ]
             elif not line_to_parse.is_correct():
                 parsed_data[current_day] = current_items
                 current_items.clear()
-                current_parser = DayHeaderParser  # reset parsing, new day
+                current_parser = DayHeaderParser  # reset parsing, new day starts
 
         return parsed_data
