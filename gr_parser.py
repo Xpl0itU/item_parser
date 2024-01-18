@@ -36,7 +36,7 @@ class DayHeaderParser(BaseGRParserItem):
 
 class ColumnNamesParser(BaseGRParserItem):
     def parse(self):
-        return "columnNames"
+        return self.data.split(", ")
 
     def is_correct(self):
         return len(self.data.split(", ")) == COLUMN_COUNT and self.data.startswith(
@@ -46,7 +46,7 @@ class ColumnNamesParser(BaseGRParserItem):
 
 class ItemInfoParser(BaseGRParserItem):
     def parse(self):
-        return "itemInfo"
+        return self.data.rsplit(", ", COLUMN_COUNT)
 
     def is_correct(self):
         return len(self.data.split(", ")) >= COLUMN_COUNT  # TODO: improve this check
