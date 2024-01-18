@@ -63,23 +63,21 @@ class GRParser:
         current_columns = None
         for line in str(self.data).splitlines():
             line_to_parse = current_parser(line)
-            if current_parser == DayHeaderParser:
+            if current_parser == DayHeaderParser: # TODO: simplify this code and do the parsing in one pass
                 current_day = line_to_parse.parse()
                 current_parser = ColumnNamesParser
             elif current_parser == ColumnNamesParser:
                 current_columns = line_to_parse.parse()
                 current_parser = ItemInfoParser
             elif current_parser == ItemInfoParser and line_to_parse.is_correct():
+                data_to_add = dict(zip(current_columns, line_to_parse.parse()))
                 if current_day in parsed_raw_data:
-                    parsed_raw_data[current_day].append(
-                        dict(zip(current_columns, line_to_parse.parse()))
-                    )
+                    parsed_raw_data[current_day].append(data_to_add)
                 else:
-                    parsed_raw_data[current_day] = [
-                        dict(zip(current_columns, line_to_parse.parse()))
-                    ]
+                    parsed_raw_data[current_day] = [data_to_add]
             elif not line_to_parse.is_correct():
                 current_parser = DayHeaderParser  # reset parsing, new day
+
         return dict(
             map(
                 lambda x: (
