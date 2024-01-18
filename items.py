@@ -1,32 +1,20 @@
 class Item:
     def __init__(self, name, sell_in, quality):
-        self.name = name
-        self.sell_in = sell_in
-        self.quality = quality
+        self._name = name
+        self._sell_in = sell_in
+        self._quality = quality
 
     @property
     def name(self):
-        return self.__name
+        return self._name
 
     @property
     def sell_in(self):
-        return self.__sell_in
+        return self._sell_in
 
     @property
     def quality(self):
-        return self.__quality
-
-    @name.setter
-    def name(self, value):
-        self.__name = value
-
-    @sell_in.setter
-    def sell_in(self, value):
-        self.__sell_in = value
-
-    @quality.setter
-    def quality(self, value):
-        self.__quality = value
+        return self._quality
 
     def __eq__(self, other):
         return (
