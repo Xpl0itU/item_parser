@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture
 def single_day_data():
-    return """-------- day 0 --------
+    return """-------- day 1 --------
 name, sellIn, quality
 +5 Dexterity Vest, 10, 20
 Aged Brie, 2, 0
@@ -13,17 +13,50 @@ Elixir of the Mongoose, 5, 7
 """
 
 
+@pytest.fixture
+def multi_day_data():
+    return """-------- day 1 --------
+name, sellIn, quality
++5 Dexterity Vest, 10, 20
+Aged Brie, 2, 0
+Elixir of the Mongoose, 5, 7
+
+-------- day 2 --------
+name, sellIn, quality
++5 Dexterity Vest, 9, 19
+Aged Brie, 1, 1
+Elixir of the Mongoose, 4, 6
+"""
+
+
 def test_parse_string_with_valid_data_single_day(single_day_data):
     parser = GRParser(single_day_data)
-    print(parser.data)
     result = parser.parse_string()
 
     assert result == {
-        "0": [
+        "1": [
             Item(name="+5 Dexterity Vest", sell_in="10", quality="20"),
             Item(name="Aged Brie", sell_in="2", quality="0"),
             Item(name="Elixir of the Mongoose", sell_in="5", quality="7"),
         ]
+    }
+
+
+def test_parse_string_with_valid_data_multi_day(multi_day_data):
+    parser = GRParser(multi_day_data)
+    result = parser.parse_string()
+
+    assert result == {
+        "1": [
+            Item(name="+5 Dexterity Vest", sell_in="10", quality="20"),
+            Item(name="Aged Brie", sell_in="2", quality="0"),
+            Item(name="Elixir of the Mongoose", sell_in="5", quality="7"),
+        ],
+        "2": [
+            Item(name="+5 Dexterity Vest", sell_in="9", quality="19"),
+            Item(name="Aged Brie", sell_in="1", quality="1"),
+            Item(name="Elixir of the Mongoose", sell_in="4", quality="6"),
+        ],
     }
 
 

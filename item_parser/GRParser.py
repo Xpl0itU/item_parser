@@ -90,7 +90,6 @@ class GRParser:
                             self.__create_item_from_raw_data(raw_data)
                         ]
             elif not line_to_parse.is_correct():
-                parsed_data[current_day] = current_items
                 current_items.clear()
                 current_parser = DayHeaderParser  # reset parsing, new day starts
 
