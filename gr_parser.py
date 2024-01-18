@@ -78,7 +78,24 @@ class GRParser:
                     parsed_raw_data[current_day] = []
             elif not line_to_parse.is_correct():
                 current_parser = DayHeaderParser  # reset parsing, new day
-        return parsed_raw_data
+        return dict(
+            map(
+                lambda x: (
+                    x[0],
+                    tuple(
+                        map(
+                            lambda y: Item(
+                                name=y["name"],
+                                sell_in=y["sellIn"],
+                                quality=y["quality"],
+                            ),
+                            x[1],
+                        )
+                    ),
+                ),
+                parsed_raw_data.items(),
+            )
+        )
 
 
 if __name__ == "__main__":
