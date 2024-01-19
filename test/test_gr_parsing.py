@@ -14,7 +14,7 @@ Elixir of the Mongoose, 5, 7
     result = parser.parse_string()
 
     assert result == {
-        "1": [
+        1: [
             Item(name="+5 Dexterity Vest", sell_in="10", quality="20"),
             Item(name="Aged Brie", sell_in="2", quality="0"),
             Item(name="Elixir of the Mongoose", sell_in="5", quality="7"),
@@ -40,12 +40,12 @@ Elixir of the Mongoose, 4, 6
     result = parser.parse_string()
 
     assert result == {
-        "1": [
+        1: [
             Item(name="+5 Dexterity Vest", sell_in="10", quality="20"),
             Item(name="Aged Brie", sell_in="2", quality="0"),
             Item(name="Elixir of the Mongoose", sell_in="5", quality="7"),
         ],
-        "2": [
+        2: [
             Item(name="+5 Dexterity Vest", sell_in="9", quality="19"),
             Item(name="Aged Brie", sell_in="1", quality="1"),
             Item(name="Elixir of the Mongoose", sell_in="4", quality="6"),
@@ -78,7 +78,7 @@ name, sellIn, quality
     result = parser.parse_string()
 
     assert result == {
-        "1": [
+        1: [
             Item(name="+5 Dexterity Vest", sell_in="-10", quality="20"),
         ]
     }
@@ -93,7 +93,7 @@ name, sellIn, quality
     result = parser.parse_string()
 
     assert result == {
-        "1": [
+        1: [
             Item(name="+5 Dexterity Vest", sell_in="10.5", quality="20.7"),
         ]
     }

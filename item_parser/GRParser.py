@@ -27,7 +27,7 @@ class DayHeaderParser(BaseGRParserItem):
     def parse(self):
         self.match = re.search(self.pattern, self.data)
         if self.match:
-            return self.match.group(1)
+            return int(self.match.group(1))
         return None
 
     def is_correct(self):
