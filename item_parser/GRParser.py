@@ -1,7 +1,19 @@
 import re
-from item_parser.Item import Item
+from item_parser.items import Item
+from item_parser.Hooks import (
+    NormalItemHook,
+    ConjuredItemHook,
+    AgedBrieHook,
+    SulfurasHook,
+    BackstageHook,
+)
 
 COLUMN_COUNT = 3
+SORTED_HOOKS = sorted(
+    (NormalItemHook, ConjuredItemHook, AgedBrieHook, SulfurasHook, BackstageHook),
+    key=lambda x: x.get_priority(),
+    reverse=True,
+)
 
 
 class BaseGRParserItem:
@@ -46,7 +58,7 @@ class ColumnNamesParser(BaseGRParserItem):
 
 class ItemInfoParser(BaseGRParserItem):
     def parse(self):
-        return self.data.rsplit(", ", COLUMN_COUNT)
+        return self.data.rsplit(", ", COLUMN_COUNT - 1)
 
     def is_correct(self):
         return len(self.data.split(", ")) >= COLUMN_COUNT  # TODO: improve this check
@@ -58,11 +70,11 @@ class GRParser:
 
     @staticmethod
     def __create_item_from_raw_data(data):
-        return Item(
-            name=data["name"],
-            sell_in=data["sellIn"],
-            quality=data["quality"],
-        )
+        for hook in SORTED_HOOKS:
+            hook_instance = hook(data)
+            if hook_instance.can_hook():
+                return hook_instance.hook()
+        return Item(**data)
 
     def parse_string(self):
         parsed_data = {}
