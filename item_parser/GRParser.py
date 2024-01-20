@@ -58,7 +58,7 @@ class ColumnNamesParser(BaseGRParserItem):
 
 class ItemInfoParser(BaseGRParserItem):
     def parse(self):
-        return self.data.rsplit(", ", COLUMN_COUNT)
+        return self.data.rsplit(", ", COLUMN_COUNT - 1)
 
     def is_correct(self):
         return len(self.data.split(", ")) >= COLUMN_COUNT  # TODO: improve this check
