@@ -21,9 +21,6 @@ class Hook:
 class NormalItemHook(Hook):
     priority = 1
 
-    def __init__(self, raw_item_data):
-        super().__init__(raw_item_data)
-
     def can_hook(self):
         return True
 
@@ -37,9 +34,6 @@ class NormalItemHook(Hook):
 
 class ConjuredItemHook(Hook):
     priority = 2
-
-    def __init__(self, raw_item_data):
-        super().__init__(raw_item_data)
 
     def can_hook(self):
         return self.raw_item_data["name"].startswith("Conjured")
@@ -55,9 +49,6 @@ class ConjuredItemHook(Hook):
 class AgedBrieHook(Hook):
     priority = 2
 
-    def __init__(self, raw_item_data):
-        super().__init__(raw_item_data)
-
     def can_hook(self):
         return self.raw_item_data["name"].startswith("Aged Brie")
 
@@ -72,9 +63,6 @@ class AgedBrieHook(Hook):
 class SulfurasHook(Hook):
     priority = 2
 
-    def __init__(self, raw_item_data):
-        super().__init__(raw_item_data)
-
     def can_hook(self):
         return self.raw_item_data["name"].startswith("Sulfuras")
 
@@ -88,9 +76,6 @@ class SulfurasHook(Hook):
 
 class BackstageHook(Hook):
     priority = 2
-
-    def __init__(self, raw_item_data):
-        super().__init__(raw_item_data)
 
     def can_hook(self):
         return self.raw_item_data["name"].startswith("Backstage passes")
