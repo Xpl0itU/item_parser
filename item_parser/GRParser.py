@@ -1,5 +1,5 @@
 import re
-from item_parser.items import Item
+from item_parser.Items import Item
 from item_parser.Hooks import (
     NormalItemHook,
     ConjuredItemHook,

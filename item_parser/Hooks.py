@@ -1,4 +1,4 @@
-from item_parser.items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Backstage
+from item_parser.Items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Backstage
 
 
 class Hook:

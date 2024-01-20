@@ -1,5 +1,5 @@
 from item_parser.GRParser import GRParser
-from item_parser.items import NormalItem, AgedBrie, ConjuredItem, Sulfuras, Backstage
+from item_parser.Items import NormalItem, AgedBrie, ConjuredItem, Sulfuras, Backstage
 
 
 def test_parse_string_with_valid_data_single_day():
