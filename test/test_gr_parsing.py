@@ -15,9 +15,9 @@ Elixir of the Mongoose, 5, 7
 
     assert result == {
         1: [
-            NormalItem(name="+5 Dexterity Vest", sell_in=10, quality=20),
-            AgedBrie(name="Aged Brie", sell_in=2, quality=0),
-            NormalItem(name="Elixir of the Mongoose", sell_in=5, quality=7),
+            NormalItem(name="+5 Dexterity Vest", sellIn=10, quality=20),
+            AgedBrie(name="Aged Brie", sellIn=2, quality=0),
+            NormalItem(name="Elixir of the Mongoose", sellIn=5, quality=7),
         ]
     }
 
@@ -41,14 +41,14 @@ Elixir of the Mongoose, 4, 6
 
     assert result == {
         1: [
-            NormalItem(name="+5 Dexterity Vest", sell_in=10, quality=20),
-            AgedBrie(name="Aged Brie", sell_in=2, quality=0),
-            NormalItem(name="Elixir of the Mongoose", sell_in=5, quality=7),
+            NormalItem(name="+5 Dexterity Vest", sellIn=10, quality=20),
+            AgedBrie(name="Aged Brie", sellIn=2, quality=0),
+            NormalItem(name="Elixir of the Mongoose", sellIn=5, quality=7),
         ],
         2: [
-            NormalItem(name="+5 Dexterity Vest", sell_in=9, quality=19),
-            AgedBrie(name="Aged Brie", sell_in=1, quality=1),
-            NormalItem(name="Elixir of the Mongoose", sell_in=4, quality=6),
+            NormalItem(name="+5 Dexterity Vest", sellIn=9, quality=19),
+            AgedBrie(name="Aged Brie", sellIn=1, quality=1),
+            NormalItem(name="Elixir of the Mongoose", sellIn=4, quality=6),
         ],
     }
 
@@ -69,17 +69,17 @@ def test_parse_string_with_empty_data():
     assert result == {}
 
 
-def test_parse_string_with_negative_sell_in_values():
-    negative_sell_in_data = """-------- day 1 --------
+def test_parse_string_with_negative_sellIn_values():
+    negative_sellIn_data = """-------- day 1 --------
 name, sellIn, quality
 +5 Dexterity Vest, -10, 20
 """
-    parser = GRParser(negative_sell_in_data)
+    parser = GRParser(negative_sellIn_data)
     result = parser.parse_string()
 
     assert result == {
         1: [
-            NormalItem(name="+5 Dexterity Vest", sell_in=-10, quality=20),
+            NormalItem(name="+5 Dexterity Vest", sellIn=-10, quality=20),
         ]
     }
 
@@ -94,7 +94,7 @@ Aged Brie, 2, 0
 
     assert result == {
         1: [
-            AgedBrie(name="Aged Brie", sell_in=2, quality=0),
+            AgedBrie(name="Aged Brie", sellIn=2, quality=0),
         ]
     }
 
@@ -109,7 +109,7 @@ Conjured Mana Cake, 3, 6
 
     assert result == {
         1: [
-            ConjuredItem(name="Conjured Mana Cake", sell_in=3, quality=6),
+            ConjuredItem(name="Conjured Mana Cake", sellIn=3, quality=6),
         ]
     }
 
@@ -124,7 +124,7 @@ Sulfuras, Hand of Ragnaros, 0, 80
 
     assert result == {
         1: [
-            Sulfuras(name="Sulfuras, Hand of Ragnaros", sell_in=0, quality=80),
+            Sulfuras(name="Sulfuras, Hand of Ragnaros", sellIn=0, quality=80),
         ]
     }
 
@@ -141,7 +141,7 @@ Backstage passes to a TAFKAL80ETC concert, 15, 20
         1: [
             Backstage(
                 name="Backstage passes to a TAFKAL80ETC concert",
-                sell_in=15,
+                sellIn=15,
                 quality=20,
             ),
         ]

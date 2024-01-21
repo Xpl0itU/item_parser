@@ -16,7 +16,7 @@ from item_parser.Items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Back
             NormalItemHook,
             {"name": "item", "sellIn": "10", "quality": "20"},
             NormalItem,
-            {"name": "item", "sell_in": 10, "quality": 20},
+            {"name": "item", "sellIn": 10, "quality": 20},
         ),
         (
             NormalItemHook,
@@ -28,7 +28,7 @@ from item_parser.Items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Back
             ConjuredItemHook,
             {"name": "Conjured item", "sellIn": "10", "quality": "20"},
             ConjuredItem,
-            {"name": "Conjured item", "sell_in": 10, "quality": 20},
+            {"name": "Conjured item", "sellIn": 10, "quality": 20},
         ),
         (
             ConjuredItemHook,
@@ -40,7 +40,7 @@ from item_parser.Items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Back
             AgedBrieHook,
             {"name": "Aged Brie", "sellIn": "10", "quality": "20"},
             AgedBrie,
-            {"name": "Aged Brie", "sell_in": 10, "quality": 20},
+            {"name": "Aged Brie", "sellIn": 10, "quality": 20},
         ),
         (
             AgedBrieHook,
@@ -52,7 +52,7 @@ from item_parser.Items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Back
             SulfurasHook,
             {"name": "Sulfuras", "sellIn": "10", "quality": "80"},
             Sulfuras,
-            {"name": "Sulfuras", "sell_in": 10, "quality": 80},
+            {"name": "Sulfuras", "sellIn": 10, "quality": 80},
         ),
         (
             SulfurasHook,
@@ -64,7 +64,7 @@ from item_parser.Items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Back
             BackstageHook,
             {"name": "Backstage", "sellIn": "10", "quality": "20"},
             Backstage,
-            {"name": "Backstage", "sell_in": 10, "quality": 20},
+            {"name": "Backstage", "sellIn": 10, "quality": 20},
         ),
         (
             BackstageHook,
