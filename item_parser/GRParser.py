@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import re
 from item_parser.Items import Item
 from item_parser.Hooks import (
@@ -65,6 +66,37 @@ class ItemInfoParser(BaseGRParserItem):
 
 
 class GRParser:
+    @dataclass
+    class InternalGRParserState:
+        current_parser: type(BaseGRParserItem)
+        current_day: int
+        current_columns: list
+        parsed_data: dict
+
+        def update_state(self, line_to_parse, create_item_func):
+            parser_actions = {
+                DayHeaderParser: lambda: self.update_day(line_to_parse),
+                ColumnNamesParser: lambda: self.update_columns(line_to_parse),
+                ItemInfoParser: lambda: self.update_item(
+                    line_to_parse, create_item_func
+                ),
+            }
+            parser_actions.get(self.current_parser, lambda: None)()
+
+        def update_day(self, line_to_parse):
+            self.current_day = line_to_parse.parse()
+
+        def update_columns(self, line_to_parse):
+            self.current_columns = line_to_parse.parse()
+
+        def update_item(self, line_to_parse, create_item_func):
+            if line_to_parse.is_correct():
+                raw_data = dict(zip(self.current_columns, line_to_parse.parse()))
+                if raw_data:
+                    self.parsed_data.setdefault(self.current_day, []).append(
+                        create_item_func(raw_data)
+                    )
+
     parser_mapping = {
         DayHeaderParser: ColumnNamesParser,
         ColumnNamesParser: ItemInfoParser,
@@ -87,27 +119,20 @@ class GRParser:
         )  # we should never get here
 
     def parse_string(self):
-        parsed_data = {}
-        current_parser = DayHeaderParser
-        current_day = None
-        current_columns = None
+        internal_state = self.InternalGRParserState(
+            current_parser=DayHeaderParser,
+            current_day=0,
+            current_columns=[],
+            parsed_data={},
+        )
 
         for line in self.data.splitlines():
-            line_to_parse = current_parser(line)
-            if current_parser == DayHeaderParser:
-                current_day = line_to_parse.parse()
-            elif current_parser == ColumnNamesParser:
-                current_columns = line_to_parse.parse()
-            elif current_parser == ItemInfoParser and line_to_parse.is_correct():
-                raw_data = dict(zip(current_columns, line_to_parse.parse()))
-                if raw_data:
-                    parsed_data.setdefault(current_day, []).append(
-                        self.__create_item_from_raw_data(raw_data)
-                    )
-            current_parser = (
-                self.parser_mapping[current_parser]
+            line_to_parse = internal_state.current_parser(line)
+            internal_state.update_state(line_to_parse, self.__create_item_from_raw_data)
+            internal_state.current_parser = (
+                self.parser_mapping[internal_state.current_parser]
                 if line_to_parse.is_correct()
                 else DayHeaderParser
             )  # shift parser when done, reset parsing when new day starts
 
-        return parsed_data
+        return internal_state.parsed_data
