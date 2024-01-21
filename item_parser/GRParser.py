@@ -65,6 +65,12 @@ class ItemInfoParser(BaseGRParserItem):
 
 
 class GRParser:
+    parser_mapping = {
+        DayHeaderParser: ColumnNamesParser,
+        ColumnNamesParser: ItemInfoParser,
+        ItemInfoParser: ItemInfoParser,
+    }
+
     def __init__(self, data):
         self.data = data
 
@@ -86,12 +92,6 @@ class GRParser:
         current_day = None
         current_columns = None
 
-        parser_mapping = {
-            DayHeaderParser: ColumnNamesParser,
-            ColumnNamesParser: ItemInfoParser,
-            ItemInfoParser: ItemInfoParser,
-        }
-
         for line in str(self.data).splitlines():
             line_to_parse = current_parser(line)
             if current_parser == DayHeaderParser:
@@ -105,7 +105,7 @@ class GRParser:
                         self.__create_item_from_raw_data(raw_data)
                     )
             current_parser = (
-                parser_mapping[current_parser]
+                self.parser_mapping[current_parser]
                 if line_to_parse.is_correct()
                 else DayHeaderParser
             )  # shift parser when done, reset parsing when new day starts
