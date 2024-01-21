@@ -61,7 +61,7 @@ class Sulfuras(NormalItem):
 
 class Backstage(NormalItem):
     def setQuality(self, value):
-        super().setQuality(self, value)
+        super().setQuality(value)
         assert (
             0 <= self.quality <= 50
         ), f"{self.__class__.__name__}'s quality out of range"

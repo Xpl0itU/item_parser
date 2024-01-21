@@ -1,9 +1,16 @@
-from item_parser.Items import NormalItem, ConjuredItem, AgedBrie, Sulfuras, Backstage
+from item_parser.Items import (
+    Item,
+    NormalItem,
+    ConjuredItem,
+    AgedBrie,
+    Sulfuras,
+    Backstage,
+)
 
 
 class Hook:
     priority = -1
-    base_class = None
+    base_class = Item
 
     def __init__(self, raw_item_data):
         self.raw_item_data = raw_item_data
