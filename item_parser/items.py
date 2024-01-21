@@ -46,9 +46,6 @@ class ConjuredItem(NormalItem):
 
 
 class AgedBrie(NormalItem):
-    def setQuality(self, value):
-        super().setQuality(self, value)
-
     def update_quality(self):
         if self.sell_in > 0:
             self.setQuality(1)
