@@ -8,7 +8,7 @@ from item_parser.Hooks import (
     BackstageHook,
 )
 from item_parser.Items import Item
-from item_parser.ParsedDataFormatter import ParsedGRDataFormatter
+from item_parser.ParsedGRDataFormatter import ParsedGRDataFormatter
 
 COLUMN_COUNT = 3
 SORTED_HOOKS = sorted(
