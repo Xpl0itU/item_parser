@@ -1,6 +1,5 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 import re
-from item_parser.Items import Item
 from item_parser.Hooks import (
     NormalItemHook,
     ConjuredItemHook,
@@ -8,6 +7,8 @@ from item_parser.Hooks import (
     SulfurasHook,
     BackstageHook,
 )
+from item_parser.Items import Item
+from item_parser.ParsedDataFormatter import ParsedDataFormatter
 
 COLUMN_COUNT = 3
 SORTED_HOOKS = sorted(
@@ -143,19 +144,6 @@ class GRParser:
 
         return internal_state.parsed_data
 
-    @staticmethod
-    def __parsed_data_to_string(parsed_data):
-        output = ""
-        for day, items in parsed_data.items():
-            output += f"-------- day {day} --------\n"
-            column_names = ", ".join(asdict(items[0]).keys())
-            output += f"{column_names}\n"
-
-            for item_data in items:
-                output += ", ".join(map(str, asdict(item_data).values())) + "\n"
-            output += "\n"
-        return output
-
     def export_to_file(self, file_name):
-        with open(file_name, "w", encoding="utf-8") as file:
-            file.write(self.__parsed_data_to_string(self.data) + "\n")
+        formatter = ParsedDataFormatter(parsed_data=self.data)
+        formatter.export_to_file(file_name)
