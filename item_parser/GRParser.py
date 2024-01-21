@@ -62,7 +62,13 @@ class ItemInfoParser(BaseGRParserItem):
         return self.data.rsplit(", ", COLUMN_COUNT - 1)
 
     def is_correct(self):
-        return len(self.data.split(", ")) >= COLUMN_COUNT  # TODO: improve this check
+        split_data = self.data.split(", ")
+        return (
+            len(split_data) >= COLUMN_COUNT
+            and split_data[0] != ""
+            and split_data[1] != ""
+            and split_data[2] != ""
+        )
 
 
 class GRParser:
