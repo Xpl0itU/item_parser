@@ -23,7 +23,7 @@ class Hook:
     def __create_item_from_raw_data(cls, data):
         return cls.base_class(
             name=data["name"],
-            sell_in=int(data["sellIn"]),
+            sellIn=int(data["sellIn"]),
             quality=int(data["quality"]),
         )
 

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 import re
 from item_parser.Items import Item
 from item_parser.Hooks import (
@@ -124,7 +124,7 @@ class GRParser:
                 return hook_instance.hook()
         return Item(
             name=data["name"],
-            sell_in=int(data["sellIn"]),
+            sellIn=int(data["sellIn"]),
             quality=int(data["quality"]),
         )  # we should never get here
 
@@ -142,3 +142,20 @@ class GRParser:
             internal_state.update_parser(line_to_parse)
 
         return internal_state.parsed_data
+
+    @staticmethod
+    def __parsed_data_to_string(parsed_data):
+        output = ""
+        for day, items in parsed_data.items():
+            output += f"-------- day {day} --------\n"
+            column_names = ", ".join(asdict(items[0]).keys())
+            output += f"{column_names}\n"
+
+            for item_data in items:
+                output += ", ".join(map(str, asdict(item_data).values())) + "\n"
+            output += "\n"
+        return output
+
+    def export_to_file(self, file_name):
+        with open(file_name, "w", encoding="utf-8") as file:
+            file.write(self.__parsed_data_to_string(self.data) + "\n")

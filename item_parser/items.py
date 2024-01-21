@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class Item:
     name: str
-    sell_in: int
+    sellIn: int
     quality: int
 
 
@@ -15,7 +15,7 @@ class Interface:
 
 class NormalItem(Item, Interface):
     def setSell_in(self):
-        self.sell_in = self.sell_in - 1
+        self.sellIn = self.sellIn - 1
 
     def setQuality(self, value):
         if self.quality + value > 50:
@@ -29,7 +29,7 @@ class NormalItem(Item, Interface):
         ), f"{self.__class__.__name__}'s quality out of range"
 
     def update_quality(self):
-        if self.sell_in > 0:
+        if self.sellIn > 0:
             self.setQuality(-1)
         else:
             self.setQuality(-2)
@@ -38,7 +38,7 @@ class NormalItem(Item, Interface):
 
 class ConjuredItem(NormalItem):
     def update_quality(self):
-        if self.sell_in >= 0:
+        if self.sellIn >= 0:
             self.setQuality(-2)
         else:
             self.setQuality(-4)
@@ -47,7 +47,7 @@ class ConjuredItem(NormalItem):
 
 class AgedBrie(NormalItem):
     def update_quality(self):
-        if self.sell_in > 0:
+        if self.sellIn > 0:
             self.setQuality(1)
         else:
             self.setQuality(2)
@@ -67,11 +67,11 @@ class Backstage(NormalItem):
         ), f"{self.__class__.__name__}'s quality out of range"
 
     def update_quality(self):
-        if self.sell_in > 10:
+        if self.sellIn > 10:
             self.setQuality(1)
-        elif self.sell_in > 5:
+        elif self.sellIn > 5:
             self.setQuality(2)
-        elif self.sell_in > 0:
+        elif self.sellIn > 0:
             self.setQuality(3)
         else:
             self.quality = 0
