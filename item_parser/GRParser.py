@@ -8,7 +8,7 @@ from item_parser.Hooks import (
     BackstageHook,
 )
 from item_parser.Items import Item
-from item_parser.ParsedDataFormatter import ParsedDataFormatter
+from item_parser.ParsedDataFormatter import ParsedGRDataFormatter
 
 COLUMN_COUNT = 3
 SORTED_HOOKS = sorted(
@@ -145,5 +145,5 @@ class GRParser:
         return internal_state.parsed_data
 
     def export_to_file(self, file_name):
-        formatter = ParsedDataFormatter(parsed_data=self.data)
+        formatter = ParsedGRDataFormatter(parsed_data=self.data)
         formatter.export_to_file(file_name)

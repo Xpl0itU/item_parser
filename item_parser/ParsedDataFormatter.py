@@ -4,7 +4,7 @@ from item_parser.Items import Item
 
 
 @dataclass
-class ParsedDataFormatter:
+class ParsedGRDataFormatter:
     parsed_data: Dict[int, List[Item]]
 
     def __format_day(self, day: int, items: List[Item]) -> str:
