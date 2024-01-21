@@ -38,7 +38,7 @@ class DayHeaderParser(BaseGRParserItem):
         self.match = None
 
     def parse(self):
-        self.match = re.match(self.pattern, self.data)
+        self.match = re.fullmatch(self.pattern, self.data)
         if self.match:
             return int(self.match.group(1))
         return None
@@ -63,11 +63,8 @@ class ItemInfoParser(BaseGRParserItem):
 
     def is_correct(self):
         split_data = self.data.split(", ")
-        return (
-            len(split_data) >= COLUMN_COUNT
-            and split_data[0] != ""
-            and split_data[1] != ""
-            and split_data[2] != ""
+        return len(split_data) >= COLUMN_COUNT and all(
+            lambda x: x != "" for x in split_data
         )
 
 
