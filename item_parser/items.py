@@ -17,11 +17,11 @@ class NormalItem(Item, Interface):
     def setSell_in(self):
         self.sell_in = self.sell_in - 1
 
-    def setQuality(self, valor):
-        if self.quality + valor > 50:
+    def setQuality(self, value):
+        if self.quality + value > 50:
             self.quality = 50
-        elif self.quality + valor >= 0:
-            self.quality = self.quality + valor
+        elif self.quality + value >= 0:
+            self.quality = self.quality + value
         else:
             self.quality = 0
         assert (
@@ -46,8 +46,8 @@ class ConjuredItem(NormalItem):
 
 
 class AgedBrie(NormalItem):
-    def setQuality(self, valor):
-        super().setQuality(self, valor)
+    def setQuality(self, value):
+        super().setQuality(self, value)
 
     def update_quality(self):
         if self.sell_in > 0:
@@ -63,8 +63,8 @@ class Sulfuras(NormalItem):
 
 
 class Backstage(NormalItem):
-    def setQuality(self, valor):
-        super().setQuality(self, valor)
+    def setQuality(self, value):
+        super().setQuality(self, value)
         assert (
             0 <= self.quality <= 50
         ), f"{self.__class__.__name__}'s quality out of range"
