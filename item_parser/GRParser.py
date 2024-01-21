@@ -74,7 +74,11 @@ class GRParser:
             hook_instance = hook(data)
             if hook_instance.can_hook():
                 return hook_instance.hook()
-        return Item(**data)
+        return Item(
+            name=data["name"],
+            sell_in=int(data["sellIn"]),
+            quality=int(data["quality"]),
+        ) # we should never get here
 
     def parse_string(self):
         parsed_data = {}
