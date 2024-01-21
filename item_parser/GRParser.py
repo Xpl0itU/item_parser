@@ -37,7 +37,7 @@ class DayHeaderParser(BaseGRParserItem):
         self.match = None
 
     def parse(self):
-        self.match = re.search(self.pattern, self.data)
+        self.match = re.match(self.pattern, self.data)
         if self.match:
             return int(self.match.group(1))
         return None
@@ -92,7 +92,7 @@ class GRParser:
         current_day = None
         current_columns = None
 
-        for line in str(self.data).splitlines():
+        for line in self.data.splitlines():
             line_to_parse = current_parser(line)
             if current_parser == DayHeaderParser:
                 current_day = line_to_parse.parse()
