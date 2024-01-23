@@ -1,13 +1,13 @@
 from dataclasses import dataclass, asdict
-from typing import Dict, List
+from typing import Dict, Iterable
 from item_parser.Items import Item
 
 
 @dataclass
 class ParsedGRDataFormatter:
-    parsed_data: Dict[int, List[Item]]
+    parsed_data: Dict[int, Iterable[Item]]
 
-    def __format_day(self, day: int, items: List[Item]) -> str:
+    def __format_day(self, day: int, items: Iterable[Item]) -> str:
         day_header = f"-------- day {day} --------"
         column_names = ", ".join(asdict(items[0]).keys())
         items_data = "\n".join(
