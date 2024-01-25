@@ -1,21 +1,8 @@
 from dataclasses import dataclass
 import re
-from item_parser.Hooks import (
-    NormalItemHook,
-    ConjuredItemHook,
-    AgedBrieHook,
-    SulfurasHook,
-    BackstageHook,
-)
-from item_parser.Items import Item
 from item_parser.ParsedGRDataFormatter import ParsedGRDataFormatter
 
 COLUMN_COUNT = 3
-SORTED_HOOKS = sorted(
-    (NormalItemHook, ConjuredItemHook, AgedBrieHook, SulfurasHook, BackstageHook),
-    key=lambda x: x.get_priority(),
-    reverse=True,
-)
 
 
 class BaseGRParserItem:
@@ -118,16 +105,12 @@ class GRParser:
         self.data = data
 
     @staticmethod
-    def __create_item_from_raw_data(data):
-        for hook in SORTED_HOOKS:
-            hook_instance = hook(data)
-            if hook_instance.can_hook():
-                return hook_instance.hook()
-        return Item(
-            name=data["name"],
-            sellIn=int(data["sellIn"]),
-            quality=int(data["quality"]),
-        )  # we should never get here
+    def __manipulate_raw_data(data):
+        return {
+            "name": data["name"],
+            "sellIn": int(data["sellIn"]),
+            "quality": int(data["quality"]),
+        }
 
     def parse_string(self):
         internal_state = self.InternalGRParserState(
@@ -139,7 +122,7 @@ class GRParser:
 
         for line in self.data.splitlines():
             line_to_parse = internal_state.current_parser(line)
-            internal_state.update_state(line_to_parse, self.__create_item_from_raw_data)
+            internal_state.update_state(line_to_parse, self.__manipulate_raw_data)
             internal_state.update_parser(line_to_parse)
 
         return internal_state.parsed_data

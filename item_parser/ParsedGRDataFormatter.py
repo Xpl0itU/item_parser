@@ -1,18 +1,15 @@
-from dataclasses import dataclass, asdict
-from typing import Dict, Iterable
-from item_parser.Items import Item
+from dataclasses import dataclass
+from typing import Any, Dict, Iterable
 
 
 @dataclass
 class ParsedGRDataFormatter:
-    parsed_data: Dict[int, Iterable[Item]]
+    parsed_data: Dict[int, Iterable[Dict[str, Any]]]
 
-    def __format_day(self, day: int, items: Iterable[Item]) -> str:
+    def __format_day(self, day: int, items: Iterable[Dict[str, Any]]) -> str:
         day_header = f"-------- day {day} --------"
-        column_names = ", ".join(asdict(items[0]).keys())
-        items_data = "\n".join(
-            [", ".join(map(str, asdict(item).values())) for item in items]
-        )
+        column_names = ", ".join(items[0].keys())
+        items_data = "\n".join([", ".join(map(str, item.values())) for item in items])
         return f"{day_header}\n{column_names}\n{items_data}\n"
 
     def __str__(self) -> str:
